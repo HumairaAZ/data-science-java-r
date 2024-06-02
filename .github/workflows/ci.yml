@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up JDK 11
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v2
       with:
         java-version: '11'
 
@@ -24,10 +24,13 @@ jobs:
       run: mvn clean install
 
     - name: Set up R
-      uses: r-lib/actions/setup-r@v1
+      uses: r-lib/actions/setup-r@v2
+      with:
+        install-r: true
+        r-version: '4.1.0'  # or specify another version available without repository issues
 
     - name: Install R dependencies
-      run: Rscript -e 'install.packages("ggplot2")'
+      run: Rscript -e 'install.packages("ggplot2", repos="https://cloud.r-project.org")'
 
     - name: Run Java Application
       run: java -jar target/data-science-java-r-1.0-SNAPSHOT-jar-with-dependencies.jar
